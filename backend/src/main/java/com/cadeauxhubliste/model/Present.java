@@ -16,8 +16,8 @@ public class Present {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "id") // Clé étrangère vers ListOfPresents
-    private Long listId;
+    @JoinColumn(name = "list_id", nullable = false) // Clé étrangère vers ListOfPresents
+    private ListOfPresents list; // Un cadeau appartient à une seule liste
 
     private String name;
 
@@ -29,10 +29,6 @@ public class Present {
     @ManyToOne
     @JoinColumn(name = "reserved_by_id") // Clé étrangère vers User
     private User reservedBy; 
-
-    @ManyToOne
-    @JoinColumn(name = "list_id", nullable = false) // Clé étrangère vers ListOfPresents
-    private ListOfPresents list;
 
     public Present() {
     }

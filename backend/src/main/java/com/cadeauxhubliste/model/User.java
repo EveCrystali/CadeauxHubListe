@@ -1,11 +1,14 @@
 package com.cadeauxhubliste.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -21,11 +24,18 @@ public class User {
 
     private String password;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ListOfPresents> listOfListOfPresents;
 
     @OneToMany(mappedBy = "reservedBy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Present> reservedPresents;
+
+    @ManyToMany(mappedBy = "sharedWith")
+    private Set<ListOfPresents> sharedLists = new HashSet<>(); // Listes partagées avec l'utilisateur
+
+
+    public User() {
+    }
 
     public User(String username, String email, String password) {
         this.username = username;
