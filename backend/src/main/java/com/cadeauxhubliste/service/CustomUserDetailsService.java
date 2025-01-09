@@ -2,6 +2,9 @@ package com.cadeauxhubliste.service;
 
 import com.cadeauxhubliste.model.User;
 import com.cadeauxhubliste.repository.UserRepository;
+
+import java.util.ArrayList;
+
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

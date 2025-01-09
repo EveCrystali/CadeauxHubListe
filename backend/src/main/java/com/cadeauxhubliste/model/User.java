@@ -1,5 +1,6 @@
 package com.cadeauxhubliste.model;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,8 @@ public class User {
 
     private String password;
 
+    private Set<String> roles = new HashSet<>();
+
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ListOfPresents> listOfListOfPresents;
 
@@ -35,6 +38,8 @@ public class User {
 
 
     public User() {
+        this.roles = new HashSet<>(Arrays.asList("USER")); // Rôle par défaut
+
     }
 
     public User(String username, String email, String password) {
@@ -89,5 +94,13 @@ public class User {
 
     public void setReservedPresents(List<Present> reservedPresents) {
         this.reservedPresents = reservedPresents;
+    }
+
+    public Set<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<String> roles) {
+        this.roles = roles;
     }
 }

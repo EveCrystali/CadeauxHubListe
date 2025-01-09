@@ -10,7 +10,7 @@ import com.cadeauxhubliste.model.User;
 @Repository
 public class UserRepository {
 
-    private IUserRepository userRepository;
+    private final IUserRepository userRepository;
 
     // Constructor to inject the IUserRepository dependency
     public UserRepository(IUserRepository userRepository) {

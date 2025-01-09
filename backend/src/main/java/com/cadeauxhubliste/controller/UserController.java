@@ -1,10 +1,12 @@
 package com.cadeauxhubliste.controller;
 
+import java.util.Arrays;
+import java.util.HashSet;
+
 import javax.naming.AuthenticationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,14 +25,14 @@ import com.cadeauxhubliste.service.UserService;
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private IUserRepository userRepository;
-
+    private final UserService userService;
+    private final IUserRepository userRepository;
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    public UserController(UserService userService, IUserRepository userRepository) {
+        this.userService = userService;
+        this.userRepository = userRepository;
+    }
     
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody LoginRequest loginRequest) {
@@ -62,6 +64,11 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody User user) {
 
+        // Définir le rôle par défaut si non spécifié
+        if (user.getRoles() == null || user.getRoles().isEmpty()) {
+            user.setRoles(new HashSet<>(Arrays.asList("USER")));
+        }
+        
         // cryptage du mot de passe avec BCrypt
         String hashedPassword = SecurityConfig.passwordEncoder().encode(user.getPassword());
         user.setPassword(hashedPassword);
