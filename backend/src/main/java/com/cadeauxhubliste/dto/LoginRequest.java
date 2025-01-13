@@ -1,4 +1,4 @@
-package com.cadeauxhubliste.model;
+package com.cadeauxhubliste.dto;
 
 public class LoginRequest {
 

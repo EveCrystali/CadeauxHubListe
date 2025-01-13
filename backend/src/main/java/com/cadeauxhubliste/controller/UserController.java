@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cadeauxhubliste.config.SecurityConfig;
-import com.cadeauxhubliste.model.LoginRequest;
+import com.cadeauxhubliste.dto.LoginRequest;
 import com.cadeauxhubliste.model.User;
 import com.cadeauxhubliste.repository.IUserRepository;
 import com.cadeauxhubliste.service.UserService;
