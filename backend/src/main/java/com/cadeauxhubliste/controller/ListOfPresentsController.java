@@ -12,40 +12,42 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cadeauxhubliste.dto.ListOfPresentsRequest;
 import com.cadeauxhubliste.model.ListOfPresents;
-
-
+import com.cadeauxhubliste.repository.IListOfPresentsRepository;
+import com.cadeauxhubliste.service.ListOfPresentsService;
 
 @RestController
 @RequestMapping("/ListOfPresents")
 public class ListOfPresentsController {
-    
+
+    private final IListOfPresentsRepository listOfPresentsRepository;
+    private final ListOfPresentsService listOfPresentsService;
+
+    public ListOfPresentsController(IListOfPresentsRepository listOfPresentsRepository, ListOfPresentsService listOfPresentsService) {
+        this.listOfPresentsRepository = listOfPresentsRepository;
+        this.listOfPresentsService = listOfPresentsService;
+    }
 
     @PostMapping("/ListOfPresents")
     public ResponseEntity<ListOfPresents> create(@RequestBody ListOfPresentsRequest listOfPresentsRequest) {
-        
-        // TODO: logic to create a new list of presents
 
-        ListOfPresents listOfPresents = new ListOfPresents();
-        
-        return ResponseEntity.ok(listOfPresents); 
+        ListOfPresents listOfPresents = listOfPresentsRepository.save(listOfPresentsRequest.getListOfPresents());
+
+        return ResponseEntity.ok(listOfPresents);
     }
 
-
     @PutMapping("/ListOfPresents/{id}")
-    public ResponseEntity<ListOfPresents> edit(@RequestBody ListOfPresents listOfPresents, @PathVariable Long id) {
-        
-        // TODO: logic to edit a list of presents
-
-        
-        return ResponseEntity.ok(listOfPresents); 
+    public ResponseEntity<ListOfPresents> update(@PathVariable Long id, @RequestBody ListOfPresentsRequest listOfPresentsRequest) {
+        ListOfPresents updatedPresent = listOfPresentsRepository.save(listOfPresentsRequest.getListOfPresents());
+        return ResponseEntity.ok(updatedPresent);
     }
 
     @DeleteMapping("/ListOfPresents/{id}")
     public ResponseEntity<ListOfPresents> delete(@PathVariable Long id) {
-        
-        // TODO: logic to delete a list of presents
 
-        
+        listOfPresentsRepository.deleteById(id);
+
+        // ? Faut-il supprimer les presents de la liste (ou la cascade se fait correctement)?
+
         return ResponseEntity.ok(null);
     }
 
@@ -53,8 +55,6 @@ public class ListOfPresentsController {
     public ResponseEntity<ListOfPresents> get(@PathVariable Long id) {
 
         //TODO: logic to get a list of presents by id
-
-
         return ResponseEntity.ok(null);
     }
 
@@ -62,8 +62,6 @@ public class ListOfPresentsController {
     public ResponseEntity<ListOfPresents> get() {
 
         //TODO: logic to get all list of presents
-
-
         return ResponseEntity.ok(null);
     }
 }
