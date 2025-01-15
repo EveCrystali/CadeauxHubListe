@@ -9,7 +9,6 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -27,19 +26,19 @@ public class User {
 
     private Set<String> roles = new HashSet<>();
 
+    // List of ListOfPresents that this user owns
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ListOfPresents> listOfListOfPresents;
 
+    // List of Presents that this user has reserved
     @OneToMany(mappedBy = "reservedBy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Present> reservedPresents;
 
-    @ManyToMany(mappedBy = "sharedWith")
-    private Set<ListOfPresents> sharedLists = new HashSet<>(); // Listes partagées avec l'utilisateur
-
+    // Set of ListOfPresents that this user has access to / where he is a participant
+    private Set<ListOfPresents> participatingListOfPresents = new HashSet<>();
 
     public User() {
         this.roles = new HashSet<>(Arrays.asList("USER")); // Rôle par défaut
-
     }
 
     public User(String username, String email, String password) {
@@ -86,6 +85,14 @@ public class User {
 
     public void setListOfListOfPresents(List<ListOfPresents> listOfListOfPresents) {
         this.listOfListOfPresents = listOfListOfPresents;
+    }
+
+    public Set<ListOfPresents> getparticipatingListOfPresents() {
+        return participatingListOfPresents;
+    }
+
+    public void setparticipatingListOfPresents(Set<ListOfPresents> participatingListOfPresents) {
+        this.participatingListOfPresents = participatingListOfPresents;
     }
 
     public List<Present> getReservedPresents() {

@@ -30,8 +30,8 @@ public class ListOfPresents {
     private User owner;
 
     @ManyToMany
-    @JoinTable(name="shared_list_users", joinColumns=@JoinColumn(name="list_id"), inverseJoinColumns=@JoinColumn(name="user_id"))
-    private Set<User> sharedWith= new HashSet<>();
+    @JoinTable(name="participants_list", joinColumns=@JoinColumn(name="list_id"), inverseJoinColumns=@JoinColumn(name="user_id"))
+    private Set<User> participants = new HashSet<>();
 
     @OneToMany(mappedBy = "list", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<Present> presents;
@@ -51,6 +51,22 @@ public class ListOfPresents {
 
     public String getTitle() {
         return title;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
+
+    public Set<User> getParticipants() {
+        return participants;
+    }
+    
+    public void setParticipants(Set<User> participants) {
+        this.participants = participants;
     }
 
     public String getDescription() {

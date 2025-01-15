@@ -23,7 +23,6 @@ public class UserRepository {
                 .filter(user -> user.getUsername().equals(username))
                 .findFirst();
     }
-
-    
+   
 
 }
