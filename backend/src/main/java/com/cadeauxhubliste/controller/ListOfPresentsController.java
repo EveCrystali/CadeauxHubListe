@@ -17,7 +17,7 @@ import com.cadeauxhubliste.model.ListOfPresents;
 import com.cadeauxhubliste.repository.IListOfPresentsRepository;
 
 @RestController
-@RequestMapping("/ListOfPresents")
+@RequestMapping("/list-of-presents")
 public class ListOfPresentsController {
 
     private final IListOfPresentsRepository listOfPresentsRepository;
@@ -26,29 +26,29 @@ public class ListOfPresentsController {
         this.listOfPresentsRepository = listOfPresentsRepository;
     }
 
-    @PostMapping("/ListOfPresents")
+    @PostMapping
     public ResponseEntity<ListOfPresents> create(@RequestBody ListOfPresentsRequest listOfPresentsRequest) {
         return ResponseEntity.ok(listOfPresentsRepository.save(listOfPresentsRequest.getListOfPresents()));
     }
 
-    @PutMapping("/ListOfPresents/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ListOfPresents> update(@PathVariable Long id, @RequestBody ListOfPresentsRequest listOfPresentsRequest) {
         ListOfPresents updatedPresent = listOfPresentsRepository.save(listOfPresentsRequest.getListOfPresents());
-        return ResponseEntity.ok(updatedPresent);
+        return ResponseEntity.ok(updatedPresent); 
     }
 
-    @DeleteMapping("/ListOfPresents/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ListOfPresents> delete(@PathVariable Long id) {
         listOfPresentsRepository.deleteById(id);
         return ResponseEntity.ok(null);
     }
 
-    @GetMapping("/ListOfPresents/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ListOfPresents> get(@PathVariable Long id) {
         return ResponseEntity.ok(listOfPresentsRepository.getReferenceById(id));
     }
 
-    @GetMapping("/ListOfPresents")
+    @GetMapping
     public ResponseEntity<List<ListOfPresents>> get() {
         return ResponseEntity.ok(listOfPresentsRepository.findAll());
     }
