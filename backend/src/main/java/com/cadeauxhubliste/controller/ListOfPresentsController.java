@@ -1,5 +1,7 @@
 package com.cadeauxhubliste.controller;
 
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,26 +15,20 @@ import org.springframework.web.bind.annotation.RestController;
 import com.cadeauxhubliste.dto.ListOfPresentsRequest;
 import com.cadeauxhubliste.model.ListOfPresents;
 import com.cadeauxhubliste.repository.IListOfPresentsRepository;
-import com.cadeauxhubliste.service.ListOfPresentsService;
 
 @RestController
 @RequestMapping("/ListOfPresents")
 public class ListOfPresentsController {
 
     private final IListOfPresentsRepository listOfPresentsRepository;
-    private final ListOfPresentsService listOfPresentsService;
 
-    public ListOfPresentsController(IListOfPresentsRepository listOfPresentsRepository, ListOfPresentsService listOfPresentsService) {
+    public ListOfPresentsController(IListOfPresentsRepository listOfPresentsRepository) {
         this.listOfPresentsRepository = listOfPresentsRepository;
-        this.listOfPresentsService = listOfPresentsService;
     }
 
     @PostMapping("/ListOfPresents")
     public ResponseEntity<ListOfPresents> create(@RequestBody ListOfPresentsRequest listOfPresentsRequest) {
-
-        ListOfPresents listOfPresents = listOfPresentsRepository.save(listOfPresentsRequest.getListOfPresents());
-
-        return ResponseEntity.ok(listOfPresents);
+        return ResponseEntity.ok(listOfPresentsRepository.save(listOfPresentsRequest.getListOfPresents()));
     }
 
     @PutMapping("/ListOfPresents/{id}")
@@ -43,25 +39,17 @@ public class ListOfPresentsController {
 
     @DeleteMapping("/ListOfPresents/{id}")
     public ResponseEntity<ListOfPresents> delete(@PathVariable Long id) {
-
         listOfPresentsRepository.deleteById(id);
-
-        // ? Faut-il supprimer les presents de la liste (ou la cascade se fait correctement)?
-
         return ResponseEntity.ok(null);
     }
 
     @GetMapping("/ListOfPresents/{id}")
     public ResponseEntity<ListOfPresents> get(@PathVariable Long id) {
-
-        //TODO: logic to get a list of presents by id
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(listOfPresentsRepository.getReferenceById(id));
     }
 
     @GetMapping("/ListOfPresents")
-    public ResponseEntity<ListOfPresents> get() {
-
-        //TODO: logic to get all list of presents
-        return ResponseEntity.ok(null);
+    public ResponseEntity<List<ListOfPresents>> get() {
+        return ResponseEntity.ok(listOfPresentsRepository.findAll());
     }
 }
